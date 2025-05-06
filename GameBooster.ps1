@@ -2,7 +2,7 @@
 
 # Функция для проверки и загрузки обновлений
 function Check-ForUpdates {
-    $repo = "https://api.github.com/repos/username/repository/releases/latest"  # Замените на свой GitHub репозиторий
+    $repo = "https://api.github.com/repos/crymory/GameBooster/releases/latest"  # Замените на свой GitHub репозиторий
     $latestRelease = Invoke-RestMethod -Uri $repo
     $latestVersion = $latestRelease.tag_name
     $latestFileUrl = $latestRelease.assets[0].browser_download_url
