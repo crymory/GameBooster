@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameBooster by Rage</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --accent-color: #ff3860;
+            --text-color: #f5f5f5;
+            --secondary-text: #a0a0a0;
+            --hover-card: #2a2a2a;
+            --tab-inactive: #333333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c2f33 0%, #23272a 100%);
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .logo span {
+            color: var(--accent-color);
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--secondary-text);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        h2 {
+            color: var(--text-color);
+            margin-top: 0;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+        
+        p {
+            color: var(--secondary-text);
+            margin-bottom: 1.5rem;
+        }
+        
+        .copy-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(255, 56, 96, 0.3);
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .copy-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(255, 56, 96, 0.4);
+        }
+        
+        .copy-btn:active {
+            transform: translateY(1px);
+        }
+        
+        .success-message {
+            color: #4caf50;
+            margin-top: 1rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            text-align: center;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background-color: var(--hover-card);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: #23272a;
+            margin-top: auto;
+        }
+        
+        .social-links {
+            margin-bottom: 1rem;
+        }
+        
+        .social-links a {
+            color: var(--secondary-text);
+            margin: 0 10px;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .copyright {
+            color: var(--secondary-text);
+            font-size: 0.9rem;
+        }
+        
+        /* Script tabs styling */
+        .script-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .tab-btn {
+            background-color: var(--tab-inactive);
+            color: var(--secondary-text);
+            border: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .tab-btn.active {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .tab-btn:hover:not(.active) {
+            background-color: #444;
+            color: var(--text-color);
+        }
+        
+        .script-content {
+            display: none;
+        }
+        
+        .script-content.active {
+            display: block;
+        }
+        
+        .script-description {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .script-box {
+            background-color: #242424;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-left: 3px solid var(--accent-color);
+            font-family: Consolas, Monaco, 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #d0d0d0;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        /* Animation for button clicks */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 0.5s;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .tagline {
+                font-size: 1rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .script-tabs {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .tab-btn {
+                width: 100%;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Game<span>Booster</span> by Rage</div>
+        <div class="tagline">Комплексная оптимизация вашего игрового опыта</div>
+    </header>
+    
+    <div class="container">
+        <div class="card">
+            <h2>Выберите скрипт оптимизации</h2>
+            <p class="script-description">Мы предлагаем набор скриптов для максимальной оптимизации вашей системы под игры</p>
+            
+            <div class="script-tabs">
+                <button class="tab-btn active" onclick="openScript('app-install')">Установка приложений</button>
+                <button class="tab-btn" onclick="openScript('services')">Отключение служб</button>
+                <button class="tab-btn" onclick="openScript('registry')">Оптимизация реестра</button>
+                <button class="tab-btn" onclick="openScript('network')">Настройка сети</button>
+                <button class="tab-btn" onclick="openScript('full')">Полная оптимизация</button>
+            </div>
+            
+            <div id="app-install" class="script-content active">
+                <p>Установит все необходимые программы и драйверы для оптимальной работы вашего ПК.</p>
+                <div class="script-box">Install-GameApps -InstallType Full -IncludeDrivers $true -CleanupAfterInstall $true</div>
+                <button class="copy-btn" onclick="copyScript('app-install')">Копировать скрипт установки приложений</button>
+                <div class="success-message" id="app-install-msg">Скрипт скопирован! Вставьте его в PowerShell для запуска.</div>
+            </div>
+            
+            <div id="services" class="script-content">
+                <p>Отключит ненужные службы Windows для освобождения системных ресурсов.</p>
+                <div class="script-box">Optimize-GameServices -DisableWinDefender $true -DisableTelemetry $true -DisableWindowsUpdates $false -OptimizeStartup $true</div>
+                <button class="copy-btn" onclick="copyScript('services')">Копировать скрипт отключения служб</button>
+                <div class="success-message" id="services-msg">Скрипт скопирован! Вставьте его в PowerShell для запуска.</div>
+            </div>
+            
+            <div id="registry" class="script-content">
+                <p>Оптимизирует настройки реестра Windows для максимальной производительности в играх.</p>
+                <div class="script-box">Set-GameRegistry -OptimizeInput $true -OptimizeGraphics $true -DisableVisualEffects $true -PrioritizeGames $true</div>
+                <button class="copy-btn" onclick="copyScript('registry')">Копировать скрипт оптимизации реестра</button>
+                <div class="success-message" id="registry-msg">Скрипт скопирован! Вставьте его в PowerShell для запуска.</div>
+            </div>
+            
+            <div id="network" class="script-content">
+                <p>Оптимизирует сетевые настройки для минимального пинга и стабильного соединения.</p>
+                <div class="script-box">Optimize-GameNetwork -SetOptimalMTU $true -OptimizeTCP $true -SetDNS "1.1.1.1,8.8.8.8" -FlushDNSCache $true</div>
+                <button class="copy-btn" onclick="copyScript('network')">Копировать скрипт настройки сети</button>
+                <div class="success-message" id="network-msg">Скрипт скопирован! Вставьте его в PowerShell для запуска.</div>
+            </div>
+            
+            <div id="full" class="script-content">
+                <p>Выполнит полную оптимизацию системы, включая все вышеперечисленные настройки.</p>
+                <div class="script-box">Invoke-Expression (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/rage-optimizer/GameBooster/main/full-optimization.ps1')</div>
+                <button class="copy-btn" onclick="copyScript('full')">Копировать скрипт полной оптимизации</button>
+                <div class="success-message" id="full-msg">Скрипт скопирован! Вставьте его в PowerShell для запуска.</div>
+            </div>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3>Увеличение FPS</h3>
+                <p>Получите максимальное количество кадров в секунду благодаря оптимизации системных ресурсов.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Снижение задержек</h3>
+                <p>Минимизируйте задержку ввода и сетевую задержку для конкурентного преимущества.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔧</div>
+                <h3>Быстрая настройка</h3>
+                <p>Простой процесс установки без необходимости технических знаний.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>Безопасность</h3>
+                <p>Все скрипты проверены и безопасны для вашей системы, с возможностью отката изменений.</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="social-links">
+            <a href="#"><i class="fab fa-github"></i> GitHub</a>
+            <a href="#"><i class="fab fa-discord"></i> Discord</a>
+            <a href="#"><i class="fab fa-telegram"></i> Telegram</a>
+        </div>
+        <div class="copyright">
+            &copy; <span id="currentYear"></span> GameBooster by Rage. Все права защищены.
+        </div>
+    </footer>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year in footer
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        });
+        
+        // Script tab functionality
+        function openScript(scriptId) {
+            // Hide all script contents
+            const scriptContents = document.getElementsByClassName('script-content');
+            for (let i = 0; i < scriptContents.length; i++) {
+                scriptContents[i].classList.remove('active');
+            }
+            
+            // Remove active class from all tabs
+            const tabButtons = document.getElementsByClassName('tab-btn');
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove('active');
+            }
+            
+            // Show the selected script content and activate its tab
+            document.getElementById(scriptId).classList.add('active');
+            
+            // Find and activate the clicked button
+            const buttons = document.getElementsByClassName('tab-btn');
+            for (let i = 0; i < buttons.length; i++) {
+                if (buttons[i].getAttribute('onclick').includes(scriptId)) {
+                    buttons[i].classList.add('active');
+                }
+            }
+        }
+        
+        // Copy script to clipboard
+        function copyScript(scriptId) {
+            const scriptBox = document.querySelector(`#${scriptId} .script-box`);
+            const successMsg = document.getElementById(`${scriptId}-msg`);
+            const copyBtn = document.querySelector(`#${scriptId} .copy-btn`);
+            
+            navigator.clipboard.writeText(scriptBox.textContent.trim()).then(function() {
+                // Show success message
+                successMsg.style.opacity = '1';
+                
+                // Add pulse animation to button
+                copyBtn.classList.add('pulse');
+                
+                // Hide message after 3 seconds
+                setTimeout(function() {
+                    successMsg.style.opacity = '0';
+                }, 3000);
+                
+                // Remove animation class
+                setTimeout(function() {
+                    copyBtn.classList.remove('pulse');
+                }, 500);
+            });
+        }
+    </script>
+</body>
+</html>
