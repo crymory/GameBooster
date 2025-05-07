@@ -1,16 +1,16 @@
-$ScriptVersion = "1.0"
-$GitHubUser = "crymory" # Замените на ваше имя пользователя GitHub
+$ScriptVersion = "1.1"
+$GitHubUser = "crymory" # Г‡Г Г¬ГҐГ­ГЁГІГҐ Г­Г  ГўГ ГёГҐ ГЁГ¬Гї ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«Гї GitHub
 $RepoName = "GameBooster"
 $BranchName = "main"
 $ScriptName = "GameBooster.ps1"
 
-# Установка цветов для вывода
+# Г“Г±ГІГ Г­Г®ГўГЄГ  Г¶ГўГҐГІГ®Гў Г¤Г«Гї ГўГ»ГўГ®Г¤Г 
 $ColorInfo = "Cyan"
 $ColorSuccess = "Green"
 $ColorWarning = "Yellow"
 $ColorError = "Red"
 
-# Функция для вывода информации с цветом
+# Г”ГіГ­ГЄГ¶ГЁГї Г¤Г«Гї ГўГ»ГўГ®Г¤Г  ГЁГ­ГґГ®Г°Г¬Г Г¶ГЁГЁ Г± Г¶ГўГҐГІГ®Г¬
 function Write-ColorMessage {
     param(
         [string]$Message,
@@ -22,39 +22,39 @@ function Write-ColorMessage {
 Write-ColorMessage "Windows 11 Optimizer v$ScriptVersion" $ColorInfo
 Write-ColorMessage "-------------------------------------" $ColorInfo
 
-# Проверка запуска от имени администратора
+# ГЏГ°Г®ГўГҐГ°ГЄГ  Г§Г ГЇГіГ±ГЄГ  Г®ГІ ГЁГ¬ГҐГ­ГЁ Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г ГІГ®Г°Г 
 if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Write-ColorMessage "Для работы требуются права администратора! Перезапустите скрипт от имени администратора." $ColorError
+    Write-ColorMessage "Г„Г«Гї Г°Г ГЎГ®ГІГ» ГІГ°ГҐГЎГіГѕГІГ±Гї ГЇГ°Г ГўГ  Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г ГІГ®Г°Г ! ГЏГҐГ°ГҐГ§Г ГЇГіГ±ГІГЁГІГҐ Г±ГЄГ°ГЁГЇГІ Г®ГІ ГЁГ¬ГҐГ­ГЁ Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г ГІГ®Г°Г ." $ColorError
     Start-Sleep -Seconds 3
     exit
 }
 
-# Функция проверки обновлений для EXE-файла
+# Г”ГіГ­ГЄГ¶ГЁГї ГЇГ°Г®ГўГҐГ°ГЄГЁ Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГ© Г¤Г«Гї EXE-ГґГ Г©Г«Г 
 function Check-ForUpdates {
     try {
-        Write-ColorMessage "Проверка наличия обновлений..." $ColorInfo
+        Write-ColorMessage "ГЏГ°Г®ГўГҐГ°ГЄГ  Г­Г Г«ГЁГ·ГЁГї Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГ©..." $ColorInfo
         
-        # URL для проверки последней версии скрипта на GitHub
+        # URL Г¤Г«Гї ГЇГ°Г®ГўГҐГ°ГЄГЁ ГЇГ®Г±Г«ГҐГ¤Г­ГҐГ© ГўГҐГ°Г±ГЁГЁ Г±ГЄГ°ГЁГЇГІГ  Г­Г  GitHub
         $VersionFileUrl = "https://raw.githubusercontent.com/$GitHubUser/$RepoName/$BranchName/version.txt"
         
-        # Получение версии с GitHub
+        # ГЏГ®Г«ГіГ·ГҐГ­ГЁГҐ ГўГҐГ°Г±ГЁГЁ Г± GitHub
         $OnlineVersion = (Invoke-WebRequest -Uri $VersionFileUrl -UseBasicParsing).Content.Trim()
         
         if ([version]$OnlineVersion -gt [version]$ScriptVersion) {
-            Write-ColorMessage "Доступна новая версия: $OnlineVersion (у вас: $ScriptVersion)" $ColorWarning
-            $UpdateChoice = Read-Host "Хотите обновить программу? (Д/Н)"
+            Write-ColorMessage "Г„Г®Г±ГІГіГЇГ­Г  Г­Г®ГўГ Гї ГўГҐГ°Г±ГЁГї: $OnlineVersion (Гі ГўГ Г±: $ScriptVersion)" $ColorWarning
+            $UpdateChoice = Read-Host "Г•Г®ГІГЁГІГҐ Г®ГЎГ­Г®ГўГЁГІГј ГЇГ°Г®ГЈГ°Г Г¬Г¬Гі? (Г„/ГЌ)"
             
-            if ($UpdateChoice -eq "Д" -or $UpdateChoice -eq "д" -or $UpdateChoice -eq "Y" -or $UpdateChoice -eq "y") {
-                # Путь для временной загрузки файла
+            if ($UpdateChoice -eq "Г„" -or $UpdateChoice -eq "Г¤" -or $UpdateChoice -eq "Y" -or $UpdateChoice -eq "y") {
+                # ГЏГіГІГј Г¤Г«Гї ГўГ°ГҐГ¬ГҐГ­Г­Г®Г© Г§Г ГЈГ°ГіГ§ГЄГЁ ГґГ Г©Г«Г 
                 $ExeDownloadUrl = "https://github.com/$GitHubUser/$RepoName/releases/download/v$OnlineVersion/GameBooster.exe"
                 $TempFile = "$env:TEMP\GameBooster_new.exe"
                 $CurrentExe = $MyInvocation.MyCommand.Path
                 
-                # Загрузка новой версии
-                Write-ColorMessage "Загрузка обновления..." $ColorInfo
+                # Г‡Г ГЈГ°ГіГ§ГЄГ  Г­Г®ГўГ®Г© ГўГҐГ°Г±ГЁГЁ
+                Write-ColorMessage "Г‡Г ГЈГ°ГіГ§ГЄГ  Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГї..." $ColorInfo
                 Invoke-WebRequest -Uri $ExeDownloadUrl -OutFile $TempFile -UseBasicParsing
                 
-                # Создание скрипта обновления
+                # Г‘Г®Г§Г¤Г Г­ГЁГҐ Г±ГЄГ°ГЁГЇГІГ  Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГї
                 $UpdaterScript = @"
 Start-Sleep -Seconds 3
 Copy-Item -Path "$TempFile" -Destination "$CurrentExe" -Force
@@ -65,49 +65,49 @@ Start-Process -FilePath "$CurrentExe"
                 $UpdaterPath = "$env:TEMP\GameBoosterUpdater.ps1"
                 $UpdaterScript | Out-File -FilePath $UpdaterPath -Force
                 
-                # Запуск скрипта обновления, который заменит текущий EXE и запустит его снова
-                Write-ColorMessage "Установка обновления. Пожалуйста, подождите..." $ColorInfo
+                # Г‡Г ГЇГіГ±ГЄ Г±ГЄГ°ГЁГЇГІГ  Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГї, ГЄГ®ГІГ®Г°Г»Г© Г§Г Г¬ГҐГ­ГЁГІ ГІГҐГЄГіГ№ГЁГ© EXE ГЁ Г§Г ГЇГіГ±ГІГЁГІ ГҐГЈГ® Г±Г­Г®ГўГ 
+                Write-ColorMessage "Г“Г±ГІГ Г­Г®ГўГЄГ  Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГї. ГЏГ®Г¦Г Г«ГіГ©Г±ГІГ , ГЇГ®Г¤Г®Г¦Г¤ГЁГІГҐ..." $ColorInfo
                 Start-Process powershell.exe -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$UpdaterPath`"" -WindowStyle Hidden
                 
-                # Выход из текущего процесса
+                # Г‚Г»ГµГ®Г¤ ГЁГ§ ГІГҐГЄГіГ№ГҐГЈГ® ГЇГ°Г®Г¶ГҐГ±Г±Г 
                 exit
             }
         } else {
-            Write-ColorMessage "У вас установлена последняя версия программы ($ScriptVersion)." $ColorSuccess
+            Write-ColorMessage "Г“ ГўГ Г± ГіГ±ГІГ Г­Г®ГўГ«ГҐГ­Г  ГЇГ®Г±Г«ГҐГ¤Г­ГїГї ГўГҐГ°Г±ГЁГї ГЇГ°Г®ГЈГ°Г Г¬Г¬Г» ($ScriptVersion)." $ColorSuccess
         }
     } catch {
-        Write-ColorMessage "Ошибка при проверке обновлений: $_" $ColorError
+        Write-ColorMessage "ГЋГёГЁГЎГЄГ  ГЇГ°ГЁ ГЇГ°Г®ГўГҐГ°ГЄГҐ Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГ©: $_" $ColorError
     }
 }
 
-# Функция для создания точки восстановления
+# Г”ГіГ­ГЄГ¶ГЁГї Г¤Г«Гї Г±Г®Г§Г¤Г Г­ГЁГї ГІГ®Г·ГЄГЁ ГўГ®Г±Г±ГІГ Г­Г®ГўГ«ГҐГ­ГЁГї
 function Create-RestorePoint {
-    Write-ColorMessage "Создание точки восстановления системы..." $ColorInfo
+    Write-ColorMessage "Г‘Г®Г§Г¤Г Г­ГЁГҐ ГІГ®Г·ГЄГЁ ГўГ®Г±Г±ГІГ Г­Г®ГўГ«ГҐГ­ГЁГї Г±ГЁГ±ГІГҐГ¬Г»..." $ColorInfo
     
-    # Проверка, включена ли служба защиты системы
+    # ГЏГ°Г®ГўГҐГ°ГЄГ , ГўГЄГ«ГѕГ·ГҐГ­Г  Г«ГЁ Г±Г«ГіГ¦ГЎГ  Г§Г Г№ГЁГІГ» Г±ГЁГ±ГІГҐГ¬Г»
     $SysRestoreStatus = Get-ComputerRestorePoint -ErrorAction SilentlyContinue
     
     if ($null -eq $SysRestoreStatus) {
-        Write-ColorMessage "Включение службы защиты системы..." $ColorInfo
+        Write-ColorMessage "Г‚ГЄГ«ГѕГ·ГҐГ­ГЁГҐ Г±Г«ГіГ¦ГЎГ» Г§Г Г№ГЁГІГ» Г±ГЁГ±ГІГҐГ¬Г»..." $ColorInfo
         Enable-ComputerRestore -Drive "$env:SystemDrive"
     }
     
-    # Создание точки восстановления
+    # Г‘Г®Г§Г¤Г Г­ГЁГҐ ГІГ®Г·ГЄГЁ ГўГ®Г±Г±ГІГ Г­Г®ГўГ«ГҐГ­ГЁГї
     Checkpoint-Computer -Description "Win11Optimizer Before Changes" -RestorePointType "MODIFY_SETTINGS" -ErrorAction SilentlyContinue
     
     if ($?) {
-        Write-ColorMessage "Точка восстановления создана успешно." $ColorSuccess
+        Write-ColorMessage "Г’Г®Г·ГЄГ  ГўГ®Г±Г±ГІГ Г­Г®ГўГ«ГҐГ­ГЁГї Г±Г®Г§Г¤Г Г­Г  ГіГ±ГЇГҐГёГ­Г®." $ColorSuccess
     } else {
-        Write-ColorMessage "Не удалось создать точку восстановления. Продолжаем без неё." $ColorWarning
+        Write-ColorMessage "ГЌГҐ ГіГ¤Г Г«Г®Г±Гј Г±Г®Г§Г¤Г ГІГј ГІГ®Г·ГЄГі ГўГ®Г±Г±ГІГ Г­Г®ГўГ«ГҐГ­ГЁГї. ГЏГ°Г®Г¤Г®Г«Г¦Г ГҐГ¬ ГЎГҐГ§ Г­ГҐВё." $ColorWarning
     }
 }
 
-# Функция оптимизации производительности
+# Г”ГіГ­ГЄГ¶ГЁГї Г®ГЇГІГЁГ¬ГЁГ§Г Г¶ГЁГЁ ГЇГ°Г®ГЁГ§ГўГ®Г¤ГЁГІГҐГ«ГјГ­Г®Г±ГІГЁ
 function Optimize-Performance {
-    Write-ColorMessage "`nОптимизация производительности Windows 11..." $ColorInfo
+    Write-ColorMessage "`nГЋГЇГІГЁГ¬ГЁГ§Г Г¶ГЁГї ГЇГ°Г®ГЁГ§ГўГ®Г¤ГЁГІГҐГ«ГјГ­Г®Г±ГІГЁ Windows 11..." $ColorInfo
     
-    # Отключение лишних визуальных эффектов
-    Write-ColorMessage "Настройка визуальных эффектов для повышения производительности..." $ColorInfo
+    # ГЋГІГЄГ«ГѕГ·ГҐГ­ГЁГҐ Г«ГЁГёГ­ГЁГµ ГўГЁГ§ГіГ Г«ГјГ­Г»Гµ ГЅГґГґГҐГЄГІГ®Гў
+    Write-ColorMessage "ГЌГ Г±ГІГ°Г®Г©ГЄГ  ГўГЁГ§ГіГ Г«ГјГ­Г»Гµ ГЅГґГґГҐГЄГІГ®Гў Г¤Г«Гї ГЇГ®ГўГ»ГёГҐГ­ГЁГї ГЇГ°Г®ГЁГ§ГўГ®Г¤ГЁГІГҐГ«ГјГ­Г®Г±ГІГЁ..." $ColorInfo
     $VisualFXPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"
     
     if (-not (Test-Path $VisualFXPath)) {
@@ -116,68 +116,68 @@ function Optimize-Performance {
     
     Set-ItemProperty -Path $VisualFXPath -Name "VisualFXSetting" -Type DWord -Value 2
     
-    # Настройка электропитания на высокую производительность
-    Write-ColorMessage "Настройка плана электропитания на Высокую производительность..." $ColorInfo
+    # ГЌГ Г±ГІГ°Г®Г©ГЄГ  ГЅГ«ГҐГЄГІГ°Г®ГЇГЁГІГ Г­ГЁГї Г­Г  ГўГ»Г±Г®ГЄГіГѕ ГЇГ°Г®ГЁГ§ГўГ®Г¤ГЁГІГҐГ«ГјГ­Г®Г±ГІГј
+    Write-ColorMessage "ГЌГ Г±ГІГ°Г®Г©ГЄГ  ГЇГ«Г Г­Г  ГЅГ«ГҐГЄГІГ°Г®ГЇГЁГІГ Г­ГЁГї Г­Г  Г‚Г»Г±Г®ГЄГіГѕ ГЇГ°Г®ГЁГ§ГўГ®Г¤ГЁГІГҐГ«ГјГ­Г®Г±ГІГј..." $ColorInfo
     powercfg /setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
     
-    # Отключение фоновых приложений
-    Write-ColorMessage "Отключение ненужных фоновых приложений..." $ColorInfo
+    # ГЋГІГЄГ«ГѕГ·ГҐГ­ГЁГҐ ГґГ®Г­Г®ГўГ»Гµ ГЇГ°ГЁГ«Г®Г¦ГҐГ­ГЁГ©
+    Write-ColorMessage "ГЋГІГЄГ«ГѕГ·ГҐГ­ГЁГҐ Г­ГҐГ­ГіГ¦Г­Г»Гµ ГґГ®Г­Г®ГўГ»Гµ ГЇГ°ГЁГ«Г®Г¦ГҐГ­ГЁГ©..." $ColorInfo
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Type DWord -Value 1
     
-    # Отключение индексации для повышения производительности диска
-    Write-ColorMessage "Настройка индексации дисков..." $ColorInfo
+    # ГЋГІГЄГ«ГѕГ·ГҐГ­ГЁГҐ ГЁГ­Г¤ГҐГЄГ±Г Г¶ГЁГЁ Г¤Г«Гї ГЇГ®ГўГ»ГёГҐГ­ГЁГї ГЇГ°Г®ГЁГ§ГўГ®Г¤ГЁГІГҐГ«ГјГ­Г®Г±ГІГЁ Г¤ГЁГ±ГЄГ 
+    Write-ColorMessage "ГЌГ Г±ГІГ°Г®Г©ГЄГ  ГЁГ­Г¤ГҐГЄГ±Г Г¶ГЁГЁ Г¤ГЁГ±ГЄГ®Гў..." $ColorInfo
     $IndexService = Get-Service -Name "WSearch"
     if ($IndexService.Status -eq "Running") {
         Stop-Service "WSearch" -Force
         Set-Service "WSearch" -StartupType Disabled
-        Write-ColorMessage "Служба индексации отключена." $ColorSuccess
+        Write-ColorMessage "Г‘Г«ГіГ¦ГЎГ  ГЁГ­Г¤ГҐГЄГ±Г Г¶ГЁГЁ Г®ГІГЄГ«ГѕГ·ГҐГ­Г ." $ColorSuccess
     } else {
-        Write-ColorMessage "Служба индексации уже отключена." $ColorInfo
+        Write-ColorMessage "Г‘Г«ГіГ¦ГЎГ  ГЁГ­Г¤ГҐГЄГ±Г Г¶ГЁГЁ ГіГ¦ГҐ Г®ГІГЄГ«ГѕГ·ГҐГ­Г ." $ColorInfo
     }
 }
 
-# Функция очистки системы
+# Г”ГіГ­ГЄГ¶ГЁГї Г®Г·ГЁГ±ГІГЄГЁ Г±ГЁГ±ГІГҐГ¬Г»
 function Clean-System {
-    Write-ColorMessage "`nОчистка системы..." $ColorInfo
+    Write-ColorMessage "`nГЋГ·ГЁГ±ГІГЄГ  Г±ГЁГ±ГІГҐГ¬Г»..." $ColorInfo
     
-    # Очистка временных файлов
-    Write-ColorMessage "Очистка временных файлов Windows..." $ColorInfo
+    # ГЋГ·ГЁГ±ГІГЄГ  ГўГ°ГҐГ¬ГҐГ­Г­Г»Гµ ГґГ Г©Г«Г®Гў
+    Write-ColorMessage "ГЋГ·ГЁГ±ГІГЄГ  ГўГ°ГҐГ¬ГҐГ­Г­Г»Гµ ГґГ Г©Г«Г®Гў Windows..." $ColorInfo
     Remove-Item -Path "$env:TEMP\*" -Recurse -Force -ErrorAction SilentlyContinue
     Remove-Item -Path "C:\Windows\Temp\*" -Recurse -Force -ErrorAction SilentlyContinue
     
-    # Очистка кэша DNS
-    Write-ColorMessage "Очистка кэша DNS..." $ColorInfo
+    # ГЋГ·ГЁГ±ГІГЄГ  ГЄГЅГёГ  DNS
+    Write-ColorMessage "ГЋГ·ГЁГ±ГІГЄГ  ГЄГЅГёГ  DNS..." $ColorInfo
     ipconfig /flushdns | Out-Null
     
-    # Дефрагментация диска (только для HDD)
+    # Г„ГҐГґГ°Г ГЈГ¬ГҐГ­ГІГ Г¶ГЁГї Г¤ГЁГ±ГЄГ  (ГІГ®Г«ГјГЄГ® Г¤Г«Гї HDD)
     $DriveType = Get-PhysicalDisk | Where-Object { $_.DeviceId -eq 0 } | Select-Object -ExpandProperty MediaType
     if ($DriveType -eq "HDD") {
-        Write-ColorMessage "Запуск дефрагментации системного диска (это может занять время)..." $ColorInfo
+        Write-ColorMessage "Г‡Г ГЇГіГ±ГЄ Г¤ГҐГґГ°Г ГЈГ¬ГҐГ­ГІГ Г¶ГЁГЁ Г±ГЁГ±ГІГҐГ¬Г­Г®ГЈГ® Г¤ГЁГ±ГЄГ  (ГЅГІГ® Г¬Г®Г¦ГҐГІ Г§Г Г­ГїГІГј ГўГ°ГҐГ¬Гї)..." $ColorInfo
         Optimize-Volume -DriveLetter C -Defrag
     } else {
-        Write-ColorMessage "Обнаружен SSD диск. Дефрагментация не требуется." $ColorInfo
+        Write-ColorMessage "ГЋГЎГ­Г Г°ГіГ¦ГҐГ­ SSD Г¤ГЁГ±ГЄ. Г„ГҐГґГ°Г ГЈГ¬ГҐГ­ГІГ Г¶ГЁГї Г­ГҐ ГІГ°ГҐГЎГіГҐГІГ±Гї." $ColorInfo
     }
     
-    # Очистка корзины
-    Write-ColorMessage "Очистка корзины..." $ColorInfo
+    # ГЋГ·ГЁГ±ГІГЄГ  ГЄГ®Г°Г§ГЁГ­Г»
+    Write-ColorMessage "ГЋГ·ГЁГ±ГІГЄГ  ГЄГ®Г°Г§ГЁГ­Г»..." $ColorInfo
     $Shell = New-Object -ComObject Shell.Application
     $RecycleBin = $Shell.Namespace(0xA)
     $RecycleBin.Items() | ForEach-Object { Remove-Item $_.Path -Recurse -Force -ErrorAction SilentlyContinue }
     
-    # Запуск встроенного средства очистки диска
-    Write-ColorMessage "Запуск средства очистки диска Windows..." $ColorInfo
+    # Г‡Г ГЇГіГ±ГЄ ГўГ±ГІГ°Г®ГҐГ­Г­Г®ГЈГ® Г±Г°ГҐГ¤Г±ГІГўГ  Г®Г·ГЁГ±ГІГЄГЁ Г¤ГЁГ±ГЄГ 
+    Write-ColorMessage "Г‡Г ГЇГіГ±ГЄ Г±Г°ГҐГ¤Г±ГІГўГ  Г®Г·ГЁГ±ГІГЄГЁ Г¤ГЁГ±ГЄГ  Windows..." $ColorInfo
     Start-Process -FilePath cleanmgr.exe -ArgumentList "/sagerun:1" -Wait
 }
 
-# Функция отключения телеметрии и улучшения приватности
+# Г”ГіГ­ГЄГ¶ГЁГї Г®ГІГЄГ«ГѕГ·ГҐГ­ГЁГї ГІГҐГ«ГҐГ¬ГҐГІГ°ГЁГЁ ГЁ ГіГ«ГіГ·ГёГҐГ­ГЁГї ГЇГ°ГЁГўГ ГІГ­Г®Г±ГІГЁ
 function Improve-Privacy {
-    Write-ColorMessage "`nНастройка приватности и отключение телеметрии..." $ColorInfo
+    Write-ColorMessage "`nГЌГ Г±ГІГ°Г®Г©ГЄГ  ГЇГ°ГЁГўГ ГІГ­Г®Г±ГІГЁ ГЁ Г®ГІГЄГ«ГѕГ·ГҐГ­ГЁГҐ ГІГҐГ«ГҐГ¬ГҐГІГ°ГЁГЁ..." $ColorInfo
     
-    # Выключение сбора данных телеметрии
-    Write-ColorMessage "Отключение телеметрии Windows..." $ColorInfo
+    # Г‚Г»ГЄГ«ГѕГ·ГҐГ­ГЁГҐ Г±ГЎГ®Г°Г  Г¤Г Г­Г­Г»Гµ ГІГҐГ«ГҐГ¬ГҐГІГ°ГЁГЁ
+    Write-ColorMessage "ГЋГІГЄГ«ГѕГ·ГҐГ­ГЁГҐ ГІГҐГ«ГҐГ¬ГҐГІГ°ГЁГЁ Windows..." $ColorInfo
     Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
     
-    # Отключение сервисов сбора данных
+    # ГЋГІГЄГ«ГѕГ·ГҐГ­ГЁГҐ Г±ГҐГ°ГўГЁГ±Г®Гў Г±ГЎГ®Г°Г  Г¤Г Г­Г­Г»Гµ
     $TelemetryServices = @(
         "DiagTrack",
         "dmwappushservice",
@@ -189,12 +189,12 @@ function Improve-Privacy {
         if ($ServiceObj) {
             Stop-Service -Name $Service -Force -ErrorAction SilentlyContinue
             Set-Service -Name $Service -StartupType Disabled
-            Write-ColorMessage "Служба $Service отключена." $ColorSuccess
+            Write-ColorMessage "Г‘Г«ГіГ¦ГЎГ  $Service Г®ГІГЄГ«ГѕГ·ГҐГ­Г ." $ColorSuccess
         }
     }
     
-    # Отключение задач сбора данных в планировщике
-    Write-ColorMessage "Отключение задач телеметрии в планировщике..." $ColorInfo
+    # ГЋГІГЄГ«ГѕГ·ГҐГ­ГЁГҐ Г§Г Г¤Г Г· Г±ГЎГ®Г°Г  Г¤Г Г­Г­Г»Гµ Гў ГЇГ«Г Г­ГЁГ°Г®ГўГ№ГЁГЄГҐ
+    Write-ColorMessage "ГЋГІГЄГ«ГѕГ·ГҐГ­ГЁГҐ Г§Г Г¤Г Г· ГІГҐГ«ГҐГ¬ГҐГІГ°ГЁГЁ Гў ГЇГ«Г Г­ГЁГ°Г®ГўГ№ГЁГЄГҐ..." $ColorInfo
     $TelemetryTasks = @(
         "\Microsoft\Windows\Application Experience\Microsoft Compatibility Appraiser",
         "\Microsoft\Windows\Application Experience\ProgramDataUpdater",
@@ -208,8 +208,8 @@ function Improve-Privacy {
         Disable-ScheduledTask -TaskPath $Task -ErrorAction SilentlyContinue | Out-Null
     }
     
-    # Отключение рекламного ID
-    Write-ColorMessage "Отключение рекламного ID..." $ColorInfo
+    # ГЋГІГЄГ«ГѕГ·ГҐГ­ГЁГҐ Г°ГҐГЄГ«Г Г¬Г­Г®ГЈГ® ID
+    Write-ColorMessage "ГЋГІГЄГ«ГѕГ·ГҐГ­ГЁГҐ Г°ГҐГЄГ«Г Г¬Г­Г®ГЈГ® ID..." $ColorInfo
     $AdvertisingIdPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\AdvertisingInfo"
     if (-not (Test-Path $AdvertisingIdPath)) {
         New-Item -Path $AdvertisingIdPath -Force | Out-Null
@@ -217,12 +217,12 @@ function Improve-Privacy {
     Set-ItemProperty -Path $AdvertisingIdPath -Name "Enabled" -Type DWord -Value 0
 }
 
-# Функция оптимизации автозагрузки
+# Г”ГіГ­ГЄГ¶ГЁГї Г®ГЇГІГЁГ¬ГЁГ§Г Г¶ГЁГЁ Г ГўГІГ®Г§Г ГЈГ°ГіГ§ГЄГЁ
 function Optimize-Startup {
-    Write-ColorMessage "`nОптимизация автозагрузки Windows..." $ColorInfo
+    Write-ColorMessage "`nГЋГЇГІГЁГ¬ГЁГ§Г Г¶ГЁГї Г ГўГІГ®Г§Г ГЈГ°ГіГ§ГЄГЁ Windows..." $ColorInfo
     
-    # Вывести список программ в автозагрузке
-    Write-ColorMessage "Список программ в автозагрузке:" $ColorInfo
+    # Г‚Г»ГўГҐГ±ГІГЁ Г±ГЇГЁГ±Г®ГЄ ГЇГ°Г®ГЈГ°Г Г¬Г¬ Гў Г ГўГІГ®Г§Г ГЈГ°ГіГ§ГЄГҐ
+    Write-ColorMessage "Г‘ГЇГЁГ±Г®ГЄ ГЇГ°Г®ГЈГ°Г Г¬Г¬ Гў Г ГўГІГ®Г§Г ГЈГ°ГіГ§ГЄГҐ:" $ColorInfo
     
     $StartupItems = Get-CimInstance -ClassName Win32_StartupCommand | 
         Select-Object Name, Command, Location, User |
@@ -230,34 +230,34 @@ function Optimize-Startup {
     
     $StartupItems | Out-Host
     
-    # Предложить отключение отдельных элементов автозагрузки
-    Write-ColorMessage "Хотите отключить элементы из автозагрузки? (Д/Н)" $ColorWarning
+    # ГЏГ°ГҐГ¤Г«Г®Г¦ГЁГІГј Г®ГІГЄГ«ГѕГ·ГҐГ­ГЁГҐ Г®ГІГ¤ГҐГ«ГјГ­Г»Гµ ГЅГ«ГҐГ¬ГҐГ­ГІГ®Гў Г ГўГІГ®Г§Г ГЈГ°ГіГ§ГЄГЁ
+    Write-ColorMessage "Г•Г®ГІГЁГІГҐ Г®ГІГЄГ«ГѕГ·ГЁГІГј ГЅГ«ГҐГ¬ГҐГ­ГІГ» ГЁГ§ Г ГўГІГ®Г§Г ГЈГ°ГіГ§ГЄГЁ? (Г„/ГЌ)" $ColorWarning
     $OptimizeStartupChoice = Read-Host
     
-    if ($OptimizeStartupChoice -eq "Д" -or $OptimizeStartupChoice -eq "д" -or $OptimizeStartupChoice -eq "Y" -or $OptimizeStartupChoice -eq "y") {
-        Write-ColorMessage "Для отключения элементов автозагрузки будет запущен msconfig." $ColorInfo
-        Write-ColorMessage "Перейдите во вкладку 'Автозагрузка' или 'Службы', чтобы управлять элементами." $ColorInfo
+    if ($OptimizeStartupChoice -eq "Г„" -or $OptimizeStartupChoice -eq "Г¤" -or $OptimizeStartupChoice -eq "Y" -or $OptimizeStartupChoice -eq "y") {
+        Write-ColorMessage "Г„Г«Гї Г®ГІГЄГ«ГѕГ·ГҐГ­ГЁГї ГЅГ«ГҐГ¬ГҐГ­ГІГ®Гў Г ГўГІГ®Г§Г ГЈГ°ГіГ§ГЄГЁ ГЎГіГ¤ГҐГІ Г§Г ГЇГіГ№ГҐГ­ msconfig." $ColorInfo
+        Write-ColorMessage "ГЏГҐГ°ГҐГ©Г¤ГЁГІГҐ ГўГ® ГўГЄГ«Г Г¤ГЄГі 'ГЂГўГІГ®Г§Г ГЈГ°ГіГ§ГЄГ ' ГЁГ«ГЁ 'Г‘Г«ГіГ¦ГЎГ»', Г·ГІГ®ГЎГ» ГіГЇГ°Г ГўГ«ГїГІГј ГЅГ«ГҐГ¬ГҐГ­ГІГ Г¬ГЁ." $ColorInfo
         Start-Process -FilePath msconfig.exe
     }
 }
 
-# Функция отключения ненужных служб
+# Г”ГіГ­ГЄГ¶ГЁГї Г®ГІГЄГ«ГѕГ·ГҐГ­ГЁГї Г­ГҐГ­ГіГ¦Г­Г»Гµ Г±Г«ГіГ¦ГЎ
 function Optimize-Services {
-    Write-ColorMessage "`nОптимизация служб Windows..." $ColorInfo
+    Write-ColorMessage "`nГЋГЇГІГЁГ¬ГЁГ§Г Г¶ГЁГї Г±Г«ГіГ¦ГЎ Windows..." $ColorInfo
     
-    # Список служб, которые можно безопасно отключить для повышения производительности
+    # Г‘ГЇГЁГ±Г®ГЄ Г±Г«ГіГ¦ГЎ, ГЄГ®ГІГ®Г°Г»ГҐ Г¬Г®Г¦Г­Г® ГЎГҐГ§Г®ГЇГ Г±Г­Г® Г®ГІГЄГ«ГѕГ·ГЁГІГј Г¤Г«Гї ГЇГ®ГўГ»ГёГҐГ­ГЁГї ГЇГ°Г®ГЁГ§ГўГ®Г¤ГЁГІГҐГ«ГјГ­Г®Г±ГІГЁ
     $ServicesToDisable = @(
-        # Список служб, которые можно отключить
-        @{Name = "SysMain"; DisplayName = "Superfetch"; Description = "Предварительная загрузка приложений в память"},
-        @{Name = "MapsBroker"; DisplayName = "Диспетчер загруженных карт"; Description = "Скачивание карт"},
-        @{Name = "lfsvc"; DisplayName = "Служба определения расположения"; Description = "Геолокационные сервисы"},
-        @{Name = "XblGameSave"; DisplayName = "Сохранение игр Xbox Live"; Description = "Синхронизация сохранений Xbox"},
-        @{Name = "XblAuthManager"; DisplayName = "Диспетчер проверки подлинности Xbox Live"; Description = "Аутентификация Xbox Live"},
-        @{Name = "RetailDemo"; DisplayName = "Демонстрационный режим для розничной продажи"; Description = "Демонстрационный режим"}
+        # Г‘ГЇГЁГ±Г®ГЄ Г±Г«ГіГ¦ГЎ, ГЄГ®ГІГ®Г°Г»ГҐ Г¬Г®Г¦Г­Г® Г®ГІГЄГ«ГѕГ·ГЁГІГј
+        @{Name = "SysMain"; DisplayName = "Superfetch"; Description = "ГЏГ°ГҐГ¤ГўГ Г°ГЁГІГҐГ«ГјГ­Г Гї Г§Г ГЈГ°ГіГ§ГЄГ  ГЇГ°ГЁГ«Г®Г¦ГҐГ­ГЁГ© Гў ГЇГ Г¬ГїГІГј"},
+        @{Name = "MapsBroker"; DisplayName = "Г„ГЁГ±ГЇГҐГІГ·ГҐГ° Г§Г ГЈГ°ГіГ¦ГҐГ­Г­Г»Гµ ГЄГ Г°ГІ"; Description = "Г‘ГЄГ Г·ГЁГўГ Г­ГЁГҐ ГЄГ Г°ГІ"},
+        @{Name = "lfsvc"; DisplayName = "Г‘Г«ГіГ¦ГЎГ  Г®ГЇГ°ГҐГ¤ГҐГ«ГҐГ­ГЁГї Г°Г Г±ГЇГ®Г«Г®Г¦ГҐГ­ГЁГї"; Description = "ГѓГҐГ®Г«Г®ГЄГ Г¶ГЁГ®Г­Г­Г»ГҐ Г±ГҐГ°ГўГЁГ±Г»"},
+        @{Name = "XblGameSave"; DisplayName = "Г‘Г®ГµГ°Г Г­ГҐГ­ГЁГҐ ГЁГЈГ° Xbox Live"; Description = "Г‘ГЁГ­ГµГ°Г®Г­ГЁГ§Г Г¶ГЁГї Г±Г®ГµГ°Г Г­ГҐГ­ГЁГ© Xbox"},
+        @{Name = "XblAuthManager"; DisplayName = "Г„ГЁГ±ГЇГҐГІГ·ГҐГ° ГЇГ°Г®ГўГҐГ°ГЄГЁ ГЇГ®Г¤Г«ГЁГ­Г­Г®Г±ГІГЁ Xbox Live"; Description = "ГЂГіГІГҐГ­ГІГЁГґГЁГЄГ Г¶ГЁГї Xbox Live"},
+        @{Name = "RetailDemo"; DisplayName = "Г„ГҐГ¬Г®Г­Г±ГІГ°Г Г¶ГЁГ®Г­Г­Г»Г© Г°ГҐГ¦ГЁГ¬ Г¤Г«Гї Г°Г®Г§Г­ГЁГ·Г­Г®Г© ГЇГ°Г®Г¤Г Г¦ГЁ"; Description = "Г„ГҐГ¬Г®Г­Г±ГІГ°Г Г¶ГЁГ®Г­Г­Г»Г© Г°ГҐГ¦ГЁГ¬"}
     )
     
-    # Вывод списка служб с описанием
-    Write-ColorMessage "Список служб, которые можно отключить для повышения производительности:" $ColorInfo
+    # Г‚Г»ГўГ®Г¤ Г±ГЇГЁГ±ГЄГ  Г±Г«ГіГ¦ГЎ Г± Г®ГЇГЁГ±Г Г­ГЁГҐГ¬
+    Write-ColorMessage "Г‘ГЇГЁГ±Г®ГЄ Г±Г«ГіГ¦ГЎ, ГЄГ®ГІГ®Г°Г»ГҐ Г¬Г®Г¦Г­Г® Г®ГІГЄГ«ГѕГ·ГЁГІГј Г¤Г«Гї ГЇГ®ГўГ»ГёГҐГ­ГЁГї ГЇГ°Г®ГЁГ§ГўГ®Г¤ГЁГІГҐГ«ГјГ­Г®Г±ГІГЁ:" $ColorInfo
     
     $i = 1
     foreach ($Service in $ServicesToDisable) {
@@ -265,18 +265,18 @@ function Optimize-Services {
         $i++
     }
     
-    # Спросить пользователя, какие службы отключать
-    Write-ColorMessage "`nВведите номера служб, которые нужно отключить (через запятую), или 'всё' для отключения всех служб:" $ColorWarning
+    # Г‘ГЇГ°Г®Г±ГЁГІГј ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«Гї, ГЄГ ГЄГЁГҐ Г±Г«ГіГ¦ГЎГ» Г®ГІГЄГ«ГѕГ·Г ГІГј
+    Write-ColorMessage "`nГ‚ГўГҐГ¤ГЁГІГҐ Г­Г®Г¬ГҐГ°Г  Г±Г«ГіГ¦ГЎ, ГЄГ®ГІГ®Г°Г»ГҐ Г­ГіГ¦Г­Г® Г®ГІГЄГ«ГѕГ·ГЁГІГј (Г·ГҐГ°ГҐГ§ Г§Г ГЇГїГІГіГѕ), ГЁГ«ГЁ 'ГўГ±Вё' Г¤Г«Гї Г®ГІГЄГ«ГѕГ·ГҐГ­ГЁГї ГўГ±ГҐГµ Г±Г«ГіГ¦ГЎ:" $ColorWarning
     $ServiceChoice = Read-Host
     
-    # Обработка выбора пользователя
-    if ($ServiceChoice -eq "всё" -or $ServiceChoice -eq "все") {
+    # ГЋГЎГ°Г ГЎГ®ГІГЄГ  ГўГ»ГЎГ®Г°Г  ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«Гї
+    if ($ServiceChoice -eq "ГўГ±Вё" -or $ServiceChoice -eq "ГўГ±ГҐ") {
         foreach ($Service in $ServicesToDisable) {
             $ServiceObj = Get-Service -Name $Service.Name -ErrorAction SilentlyContinue
             if ($ServiceObj) {
                 Stop-Service -Name $Service.Name -Force -ErrorAction SilentlyContinue
                 Set-Service -Name $Service.Name -StartupType Disabled
-                Write-ColorMessage "Служба $($Service.DisplayName) отключена." $ColorSuccess
+                Write-ColorMessage "Г‘Г«ГіГ¦ГЎГ  $($Service.DisplayName) Г®ГІГЄГ«ГѕГ·ГҐГ­Г ." $ColorSuccess
             }
         }
     } else {
@@ -293,7 +293,7 @@ function Optimize-Services {
                     if ($ServiceObj) {
                         Stop-Service -Name $ServiceToDisable.Name -Force -ErrorAction SilentlyContinue
                         Set-Service -Name $ServiceToDisable.Name -StartupType Disabled
-                        Write-ColorMessage "Служба $($ServiceToDisable.DisplayName) отключена." $ColorSuccess
+                        Write-ColorMessage "Г‘Г«ГіГ¦ГЎГ  $($ServiceToDisable.DisplayName) Г®ГІГЄГ«ГѕГ·ГҐГ­Г ." $ColorSuccess
                     }
                 }
             }
@@ -301,55 +301,55 @@ function Optimize-Services {
     }
 }
 
-# Функция настройки реестра для оптимизации системы
+# Г”ГіГ­ГЄГ¶ГЁГї Г­Г Г±ГІГ°Г®Г©ГЄГЁ Г°ГҐГҐГ±ГІГ°Г  Г¤Г«Гї Г®ГЇГІГЁГ¬ГЁГ§Г Г¶ГЁГЁ Г±ГЁГ±ГІГҐГ¬Г»
 function Optimize-Registry {
-    Write-ColorMessage "`nОптимизация реестра Windows..." $ColorInfo
+    Write-ColorMessage "`nГЋГЇГІГЁГ¬ГЁГ§Г Г¶ГЁГї Г°ГҐГҐГ±ГІГ°Г  Windows..." $ColorInfo
     
-    # Ускорение запуска приложений
-    Write-ColorMessage "Оптимизация запуска приложений..." $ColorInfo
+    # Г“Г±ГЄГ®Г°ГҐГ­ГЁГҐ Г§Г ГЇГіГ±ГЄГ  ГЇГ°ГЁГ«Г®Г¦ГҐГ­ГЁГ©
+    Write-ColorMessage "ГЋГЇГІГЁГ¬ГЁГ§Г Г¶ГЁГї Г§Г ГЇГіГ±ГЄГ  ГЇГ°ГЁГ«Г®Г¦ГҐГ­ГЁГ©..." $ColorInfo
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name "EnablePrefetcher" -Type DWord -Value 3
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" -Name "EnableSuperfetch" -Type DWord -Value 0
     
-    # Оптимизация кэширования файловой системы
-    Write-ColorMessage "Оптимизация кэширования файловой системы..." $ColorInfo
+    # ГЋГЇГІГЁГ¬ГЁГ§Г Г¶ГЁГї ГЄГЅГёГЁГ°Г®ГўГ Г­ГЁГї ГґГ Г©Г«Г®ГўГ®Г© Г±ГЁГ±ГІГҐГ¬Г»
+    Write-ColorMessage "ГЋГЇГІГЁГ¬ГЁГ§Г Г¶ГЁГї ГЄГЅГёГЁГ°Г®ГўГ Г­ГЁГї ГґГ Г©Г«Г®ГўГ®Г© Г±ГЁГ±ГІГҐГ¬Г»..." $ColorInfo
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name "NtfsDisableLastAccessUpdate" -Type DWord -Value 1
     
-    # Ускорение меню
-    Write-ColorMessage "Ускорение отклика меню..." $ColorInfo
+    # Г“Г±ГЄГ®Г°ГҐГ­ГЁГҐ Г¬ГҐГ­Гѕ
+    Write-ColorMessage "Г“Г±ГЄГ®Г°ГҐГ­ГЁГҐ Г®ГІГЄГ«ГЁГЄГ  Г¬ГҐГ­Гѕ..." $ColorInfo
     Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "MenuShowDelay" -Type String -Value "0"
     
-    # Отключение анимации
-    Write-ColorMessage "Настройка анимации для повышения производительности..." $ColorInfo
+    # ГЋГІГЄГ«ГѕГ·ГҐГ­ГЁГҐ Г Г­ГЁГ¬Г Г¶ГЁГЁ
+    Write-ColorMessage "ГЌГ Г±ГІГ°Г®Г©ГЄГ  Г Г­ГЁГ¬Г Г¶ГЁГЁ Г¤Г«Гї ГЇГ®ГўГ»ГёГҐГ­ГЁГї ГЇГ°Г®ГЁГ§ГўГ®Г¤ГЁГІГҐГ«ГјГ­Г®Г±ГІГЁ..." $ColorInfo
     Set-ItemProperty -Path "HKCU:\Control Panel\Desktop\WindowMetrics" -Name "MinAnimate" -Type String -Value "0"
     
-    # Отключение эффекта прозрачности
-    Write-ColorMessage "Отключение эффекта прозрачности..." $ColorInfo
+    # ГЋГІГЄГ«ГѕГ·ГҐГ­ГЁГҐ ГЅГґГґГҐГЄГІГ  ГЇГ°Г®Г§Г°Г Г·Г­Г®Г±ГІГЁ
+    Write-ColorMessage "ГЋГІГЄГ«ГѕГ·ГҐГ­ГЁГҐ ГЅГґГґГҐГЄГІГ  ГЇГ°Г®Г§Г°Г Г·Г­Г®Г±ГІГЁ..." $ColorInfo
     Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "EnableTransparency" -Type DWord -Value 0
     
-    # Ускорение выключения системы
-    Write-ColorMessage "Оптимизация времени выключения системы..." $ColorInfo
+    # Г“Г±ГЄГ®Г°ГҐГ­ГЁГҐ ГўГ»ГЄГ«ГѕГ·ГҐГ­ГЁГї Г±ГЁГ±ГІГҐГ¬Г»
+    Write-ColorMessage "ГЋГЇГІГЁГ¬ГЁГ§Г Г¶ГЁГї ГўГ°ГҐГ¬ГҐГ­ГЁ ГўГ»ГЄГ«ГѕГ·ГҐГ­ГЁГї Г±ГЁГ±ГІГҐГ¬Г»..." $ColorInfo
     Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control" -Name "WaitToKillServiceTimeout" -Type String -Value "2000"
 }
 
-# Главное меню
+# ГѓГ«Г ГўГ­Г®ГҐ Г¬ГҐГ­Гѕ
 function Show-Menu {
     Clear-Host
     Write-ColorMessage "Windows 11 Optimizer v$ScriptVersion" $ColorInfo
     Write-ColorMessage "-------------------------------------" $ColorInfo
-    Write-ColorMessage "Выберите действие:" $ColorInfo
-    Write-ColorMessage "1. Запустить все оптимизации" $ColorInfo
-    Write-ColorMessage "2. Оптимизация производительности" $ColorInfo
-    Write-ColorMessage "3. Очистка системы" $ColorInfo
-    Write-ColorMessage "4. Настройка приватности" $ColorInfo
-    Write-ColorMessage "5. Оптимизация автозагрузки" $ColorInfo
-    Write-ColorMessage "6. Оптимизация служб" $ColorInfo
-    Write-ColorMessage "7. Оптимизация реестра" $ColorInfo
-    Write-ColorMessage "8. Проверить наличие обновлений" $ColorInfo
-    Write-ColorMessage "9. Создать точку восстановления" $ColorInfo
-    Write-ColorMessage "0. Выход" $ColorInfo
+    Write-ColorMessage "Г‚Г»ГЎГҐГ°ГЁГІГҐ Г¤ГҐГ©Г±ГІГўГЁГҐ:" $ColorInfo
+    Write-ColorMessage "1. Г‡Г ГЇГіГ±ГІГЁГІГј ГўГ±ГҐ Г®ГЇГІГЁГ¬ГЁГ§Г Г¶ГЁГЁ" $ColorInfo
+    Write-ColorMessage "2. ГЋГЇГІГЁГ¬ГЁГ§Г Г¶ГЁГї ГЇГ°Г®ГЁГ§ГўГ®Г¤ГЁГІГҐГ«ГјГ­Г®Г±ГІГЁ" $ColorInfo
+    Write-ColorMessage "3. ГЋГ·ГЁГ±ГІГЄГ  Г±ГЁГ±ГІГҐГ¬Г»" $ColorInfo
+    Write-ColorMessage "4. ГЌГ Г±ГІГ°Г®Г©ГЄГ  ГЇГ°ГЁГўГ ГІГ­Г®Г±ГІГЁ" $ColorInfo
+    Write-ColorMessage "5. ГЋГЇГІГЁГ¬ГЁГ§Г Г¶ГЁГї Г ГўГІГ®Г§Г ГЈГ°ГіГ§ГЄГЁ" $ColorInfo
+    Write-ColorMessage "6. ГЋГЇГІГЁГ¬ГЁГ§Г Г¶ГЁГї Г±Г«ГіГ¦ГЎ" $ColorInfo
+    Write-ColorMessage "7. ГЋГЇГІГЁГ¬ГЁГ§Г Г¶ГЁГї Г°ГҐГҐГ±ГІГ°Г " $ColorInfo
+    Write-ColorMessage "8. ГЏГ°Г®ГўГҐГ°ГЁГІГј Г­Г Г«ГЁГ·ГЁГҐ Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГ©" $ColorInfo
+    Write-ColorMessage "9. Г‘Г®Г§Г¤Г ГІГј ГІГ®Г·ГЄГі ГўГ®Г±Г±ГІГ Г­Г®ГўГ«ГҐГ­ГЁГї" $ColorInfo
+    Write-ColorMessage "0. Г‚Г»ГµГ®Г¤" $ColorInfo
     Write-ColorMessage "-------------------------------------" $ColorInfo
     
-    $Choice = Read-Host "Введите номер"
+    $Choice = Read-Host "Г‚ГўГҐГ¤ГЁГІГҐ Г­Г®Г¬ГҐГ°"
     
     switch ($Choice) {
         "1" {
@@ -360,64 +360,64 @@ function Show-Menu {
             Optimize-Startup
             Optimize-Services
             Optimize-Registry
-            Write-ColorMessage "`nВсе оптимизации выполнены успешно!" $ColorSuccess
-            Read-Host "Нажмите Enter для возврата в меню"
+            Write-ColorMessage "`nГ‚Г±ГҐ Г®ГЇГІГЁГ¬ГЁГ§Г Г¶ГЁГЁ ГўГ»ГЇГ®Г«Г­ГҐГ­Г» ГіГ±ГЇГҐГёГ­Г®!" $ColorSuccess
+            Read-Host "ГЌГ Г¦Г¬ГЁГІГҐ Enter Г¤Г«Гї ГўГ®Г§ГўГ°Г ГІГ  Гў Г¬ГҐГ­Гѕ"
             Show-Menu
         }
         "2" {
             Optimize-Performance
-            Read-Host "Нажмите Enter для возврата в меню"
+            Read-Host "ГЌГ Г¦Г¬ГЁГІГҐ Enter Г¤Г«Гї ГўГ®Г§ГўГ°Г ГІГ  Гў Г¬ГҐГ­Гѕ"
             Show-Menu
         }
         "3" {
             Clean-System
-            Read-Host "Нажмите Enter для возврата в меню"
+            Read-Host "ГЌГ Г¦Г¬ГЁГІГҐ Enter Г¤Г«Гї ГўГ®Г§ГўГ°Г ГІГ  Гў Г¬ГҐГ­Гѕ"
             Show-Menu
         }
         "4" {
             Improve-Privacy
-            Read-Host "Нажмите Enter для возврата в меню"
+            Read-Host "ГЌГ Г¦Г¬ГЁГІГҐ Enter Г¤Г«Гї ГўГ®Г§ГўГ°Г ГІГ  Гў Г¬ГҐГ­Гѕ"
             Show-Menu
         }
         "5" {
             Optimize-Startup
-            Read-Host "Нажмите Enter для возврата в меню"
+            Read-Host "ГЌГ Г¦Г¬ГЁГІГҐ Enter Г¤Г«Гї ГўГ®Г§ГўГ°Г ГІГ  Гў Г¬ГҐГ­Гѕ"
             Show-Menu
         }
         "6" {
             Optimize-Services
-            Read-Host "Нажмите Enter для возврата в меню"
+            Read-Host "ГЌГ Г¦Г¬ГЁГІГҐ Enter Г¤Г«Гї ГўГ®Г§ГўГ°Г ГІГ  Гў Г¬ГҐГ­Гѕ"
             Show-Menu
         }
         "7" {
             Optimize-Registry
-            Read-Host "Нажмите Enter для возврата в меню"
+            Read-Host "ГЌГ Г¦Г¬ГЁГІГҐ Enter Г¤Г«Гї ГўГ®Г§ГўГ°Г ГІГ  Гў Г¬ГҐГ­Гѕ"
             Show-Menu
         }
         "8" {
             Check-ForUpdates
-            Read-Host "Нажмите Enter для возврата в меню"
+            Read-Host "ГЌГ Г¦Г¬ГЁГІГҐ Enter Г¤Г«Гї ГўГ®Г§ГўГ°Г ГІГ  Гў Г¬ГҐГ­Гѕ"
             Show-Menu
         }
         "9" {
             Create-RestorePoint
-            Read-Host "Нажмите Enter для возврата в меню"
+            Read-Host "ГЌГ Г¦Г¬ГЁГІГҐ Enter Г¤Г«Гї ГўГ®Г§ГўГ°Г ГІГ  Гў Г¬ГҐГ­Гѕ"
             Show-Menu
         }
         "0" {
-            Write-ColorMessage "Выход из программы..." $ColorInfo
+            Write-ColorMessage "Г‚Г»ГµГ®Г¤ ГЁГ§ ГЇГ°Г®ГЈГ°Г Г¬Г¬Г»..." $ColorInfo
             exit
         }
         default {
-            Write-ColorMessage "Неверный выбор. Попробуйте снова." $ColorWarning
+            Write-ColorMessage "ГЌГҐГўГҐГ°Г­Г»Г© ГўГ»ГЎГ®Г°. ГЏГ®ГЇГ°Г®ГЎГіГ©ГІГҐ Г±Г­Г®ГўГ ." $ColorWarning
             Start-Sleep -Seconds 2
             Show-Menu
         }
     }
 }
 
-# Проверка обновлений при запуске
+# ГЏГ°Г®ГўГҐГ°ГЄГ  Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГ© ГЇГ°ГЁ Г§Г ГЇГіГ±ГЄГҐ
 Check-ForUpdates
 
-# Запуск главного меню
+# Г‡Г ГЇГіГ±ГЄ ГЈГ«Г ГўГ­Г®ГЈГ® Г¬ГҐГ­Гѕ
 Show-Menu
