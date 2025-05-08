@@ -1,4 +1,4 @@
-$ScriptVersion = "1.1"
+$ScriptVersion = "1.2"
 $GitHubUser = "crymory" # Замените на ваше имя пользователя GitHub
 $RepoName = "GameBooster"
 $BranchName = "main"
